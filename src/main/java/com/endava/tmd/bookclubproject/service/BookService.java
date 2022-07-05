@@ -2,7 +2,6 @@ package com.endava.tmd.bookclubproject.service;
 
 import com.endava.tmd.bookclubproject.entity.Book;
 import com.endava.tmd.bookclubproject.repository.BookRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

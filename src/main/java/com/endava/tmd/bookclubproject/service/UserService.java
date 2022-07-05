@@ -36,4 +36,7 @@ public class UserService {
             repository.save(user);
         }
     }
+    public User getUserByNameOrEmail(Optional<String>name,Optional<String> email){
+        return repository.getUserByNameOrEmail(name,email);
+    }
 }

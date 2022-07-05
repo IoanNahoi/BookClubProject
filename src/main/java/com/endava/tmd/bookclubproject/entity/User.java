@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "accounts")
@@ -33,4 +34,7 @@ public class User {
 
     @OneToMany(mappedBy = "user_who_borrowed")
     List<Borrow> borrowList;
+
+    @OneToMany(mappedBy = "borrowed_book")
+    List<Borrow> booked_borrow_list;
 }

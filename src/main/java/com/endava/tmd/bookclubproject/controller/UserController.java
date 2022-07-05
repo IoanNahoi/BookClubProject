@@ -48,4 +48,9 @@ public class UserController {
         userService.update(user);
     }
 
+    @RequestMapping(value = "/NameOrEmail", method = RequestMethod.GET)
+    public User getUserByNameOrEmail(@RequestParam(value = "name") Optional<String> name, @RequestParam(value = "email") Optional<String> email) {
+        return userService.getUserByNameOrEmail(name, email);
+    }
+
 }
