@@ -1,18 +1,27 @@
 package com.endava.tmd.bookclubproject.service;
 
 import com.endava.tmd.bookclubproject.entity.BookOwner;
-import com.endava.tmd.bookclubproject.entity.Borrow;
 import com.endava.tmd.bookclubproject.repository.BookOwnerRepository;
+import com.endava.tmd.bookclubproject.repository.BookRepository;
+import com.endava.tmd.bookclubproject.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 @Service
 public class BookOwnerService {
+    @Autowired
     private final BookOwnerRepository bookOwnerRepository;
+    @Autowired
+    private final UserRepository userRepository;
 
-    public BookOwnerService(BookOwnerRepository bookOwnerRepository) {
+    @Autowired
+    private final BookRepository bookRepository;
+    public BookOwnerService(BookOwnerRepository bookOwnerRepository, UserRepository userRepository, BookRepository bookRepository) {
         this.bookOwnerRepository = bookOwnerRepository;
+        this.userRepository = userRepository;
+        this.bookRepository = bookRepository;
     }
     public List<BookOwner> getAll() {
         return bookOwnerRepository.findAll();
@@ -22,10 +31,14 @@ public class BookOwnerService {
         return bookOwnerRepository.findById(id);
     }
 
-    public void addBook(BookOwner bookOwner) {
+    public void addBookAndOwner(Long idUser, long idBook) {
+
+        BookOwner bookOwner = new BookOwner();
+        bookOwner.setUser(userRepository.getById(idUser));
+        bookOwnerRepository.save(bookOwnerRepository.findById(idBook)
+                .get());
         bookOwnerRepository.save(bookOwner);
     }
-
     public void deleteById(Long id) {
         bookOwnerRepository.deleteById(id);
     }

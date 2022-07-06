@@ -3,6 +3,7 @@ package com.endava.tmd.bookclubproject.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,4 +33,13 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "id_user")
     )
     private Set<User> waitingList;
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "booksowners",
+//            joinColumns = @JoinColumn(name = "id_book",table = "book",referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "id_owner",table = "accounts",referencedColumnName = "id"))
+//    private Set<User> userList;
 }
+
+

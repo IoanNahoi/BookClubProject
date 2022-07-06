@@ -30,10 +30,10 @@ public class BorrowController {
         return borrowService.getbyid(id).isPresent() ? borrowService.getbyid(id).get() : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping
-    public void addUser(@RequestBody final Borrow borrow) {
-        borrowService.addBook(borrow);
-    }
+//    @PostMapping
+//    public void addUser(@RequestBody final Borrow borrow) {
+//        borrowService.addBook(borrow);
+//    }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id) {

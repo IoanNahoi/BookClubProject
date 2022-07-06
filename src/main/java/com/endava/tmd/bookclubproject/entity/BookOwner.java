@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "booksowners")
@@ -18,12 +16,16 @@ import java.util.Set;
 public class BookOwner {
     @Id
     private long id;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Book book;
 
-    @ManyToMany
-    @JoinTable(
-            name = "booksowners",
-            joinColumns = @JoinColumn(name = "id_book"),
-            inverseJoinColumns = @JoinColumn(name = "id_owner"))
-    private List<User> userList;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "booksowners",
+//            joinColumns = @JoinColumn(name = "id_book"),
+//            inverseJoinColumns = @JoinColumn(name = "id_owner"))
+//    private List<User> userListOwners;
 
 }
