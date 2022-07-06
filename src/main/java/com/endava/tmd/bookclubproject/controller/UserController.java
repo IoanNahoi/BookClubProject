@@ -33,8 +33,9 @@ public class UserController {
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping
-    public void addUser(@RequestParam final User user) {
+//    @PostMapping
+    @RequestMapping(method = RequestMethod.POST)
+    public void addUser(@RequestBody final User user) {
         userService.addUser(user);
     }
 

@@ -43,10 +43,10 @@ public class Borrow {
     }
 
     @ManyToOne()
-    @JoinColumn(name = "id_book")
+    @JoinColumn(name = "id_user")
     private User user_who_borrowed;
 
     @ManyToOne()
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "id_book")
     private Book borrowed_book;
 }

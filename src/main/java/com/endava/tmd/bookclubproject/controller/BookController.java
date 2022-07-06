@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("book")
+@RequestMapping("bookowner")
 public class BookController {
     @Autowired
     private final BookService bookService;
@@ -32,7 +32,7 @@ public class BookController {
     }
 
     @PostMapping
-    public void addUser(@RequestBody final Book book) {
+    public void addBook(@RequestBody final Book book) {
         bookService.addBook(book);
     }
 
