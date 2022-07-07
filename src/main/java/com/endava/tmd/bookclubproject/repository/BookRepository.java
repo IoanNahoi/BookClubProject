@@ -1,7 +1,19 @@
 package com.endava.tmd.bookclubproject.repository;
 
 import com.endava.tmd.bookclubproject.entity.Book;
+import com.endava.tmd.bookclubproject.entity.Borrow;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-public interface BookRepository extends JpaRepository<Book,Long> {
+import java.util.List;
+import java.util.Optional;
+
+public interface BookRepository extends JpaRepository<Book, Long> {
+    @Query("SELECT b from Book b where b.title=:bookTitle")
+    Book getBookByTitle(Optional<String> bookTitle);
+
+    @Query("SELECT b from Book b  where b.id NOT IN(SELECT borrowed_book from Borrow )")
+    List<Book> getAvailableBooks();
+
+
 }

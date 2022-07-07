@@ -52,4 +52,9 @@ public class BookOwnerService {
         if (bookOwnerRepository.findById(bookOwner.getId()).isPresent())
             bookOwnerRepository.save(bookOwner);
     }
+
+    public void getBookByUserId(Long id) {
+        bookOwnerRepository.getBookOwnerByID(id);
+    }
 }
+

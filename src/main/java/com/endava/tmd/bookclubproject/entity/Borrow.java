@@ -36,6 +36,8 @@ public class Borrow {
     private LocalDate date_when_borrowed;
     private LocalDate date_when_return;
 
+    private Long id_owner_book;
+
     public Borrow(number_of_days_to_borrow days, User user_who_borrowed) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         this.date_when_borrowed = LocalDate.now();

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("book")
@@ -44,5 +45,14 @@ public class BookController {
     @RequestMapping(method = RequestMethod.PUT)
     public void update(@RequestParam Book book) {
         bookService.update(book);
+    }
+
+    @RequestMapping(value = "/title", method = RequestMethod.GET)
+    public Book getBookByTitle(@RequestParam(value = "title") Optional<String> title) {
+        return bookService.getBookByTitle(title);
+    }
+    @GetMapping(value = "/available")
+    public List<Book> getAvailableBooks(){
+        return bookService.getAvailableBooks();
     }
 }

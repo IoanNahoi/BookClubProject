@@ -1,6 +1,7 @@
 package com.endava.tmd.bookclubproject.service;
 
 import com.endava.tmd.bookclubproject.entity.Borrow;
+import com.endava.tmd.bookclubproject.repository.BookOwnerRepository;
 import com.endava.tmd.bookclubproject.repository.BookRepository;
 import com.endava.tmd.bookclubproject.repository.BorrowRepository;
 import com.endava.tmd.bookclubproject.repository.UserRepository;
@@ -17,14 +18,17 @@ public class BorrowService {
     private final BorrowRepository borrowRepository;
     @Autowired
     private final UserRepository userRepository;
-
     @Autowired
     private final BookRepository bookRepository;
 
-    public BorrowService(BorrowRepository borrowRepository, UserRepository userRepository, BookRepository bookRepository) {
+    @Autowired
+    private final BookOwnerRepository bookOwnerRepository;
+
+    public BorrowService(BorrowRepository borrowRepository, UserRepository userRepository, BookRepository bookRepository, BookOwnerRepository bookOwnerRepository) {
         this.borrowRepository = borrowRepository;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
+        this.bookOwnerRepository = bookOwnerRepository;
     }
 
     public List<Borrow> getAll() {
@@ -46,13 +50,17 @@ public class BorrowService {
     }
 
     public void add(Long idUser, Long idBook, int borrowDays) {
-        Borrow borrow=new Borrow();
+        Borrow borrow = new Borrow();
         borrow.setUser_who_borrowed(userRepository.findById(idUser).get());
         borrow.setBorrowed_book(bookRepository.findById(idBook).get());
+        borrow.setId_owner_book(bookOwnerRepository.getBookOwnerByID(idBook));
         borrow.setDate_when_borrowed(LocalDate.now());
         borrow.setDate_when_return(LocalDate.now().plusDays(borrowDays));
         borrowRepository.save(borrow);
     }
 
+    public String seeWhoBorrowed(long id) {
+        return borrowRepository.seeWhoBorrowedAndWhenReturn(id).stream().map(n -> n.getUser_who_borrowed() + " " + n.getDate_when_return() + "\n").toString();
+    }
 
 }

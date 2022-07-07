@@ -2,10 +2,7 @@ package com.endava.tmd.bookclubproject.controller;
 
 import com.endava.tmd.bookclubproject.service.BookOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("owner")
@@ -21,6 +18,9 @@ public class BookOwnerController {
     public void addBookAndOwner(@RequestParam("idUser") long idUser, @RequestParam("idBook") long idBook) {
         bookOwnerService.addBookAndOwner(idUser, idBook);
     }
+
+    @GetMapping(value = "/bookByUserId")
+    public void getBookByUserId(@RequestParam("idUser") long idUser){
+        bookOwnerService.getBookByUserId(idUser);
+    }
 }
-///deci
-///cum trimit 2 argumente aici?

@@ -35,4 +35,12 @@ public class BookService {
         if (bookRepository.findById(book.getId()).isPresent())
             bookRepository.save(book);
     }
+    public Book getBookByTitle(Optional<String> bookTitle){
+        return bookRepository.getBookByTitle(bookTitle);
+    }
+    public List<Book> getAvailableBooks(){
+        return bookRepository.getAvailableBooks();
+
+    }
+
 }

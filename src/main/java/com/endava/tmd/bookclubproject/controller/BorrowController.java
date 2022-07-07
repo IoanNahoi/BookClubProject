@@ -45,4 +45,9 @@ public class BorrowController {
     public void update(@RequestParam Borrow borrow) {
         borrowService.update(borrow);
     }
+
+    @GetMapping(value = "/seeWhoBorrowed")
+    public void getUserWhoBorrowed(@RequestParam("id") Long id){
+        borrowService.seeWhoBorrowed(id);
+    }
 }
