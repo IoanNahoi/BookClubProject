@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("bookowner")
+@RequestMapping("book")
 public class BookController {
     @Autowired
     private final BookService bookService;
@@ -26,7 +26,7 @@ public class BookController {
 
     @GetMapping
     @RequestMapping("{id}")
-    public Object getbyid(@RequestParam Long id) {
+    public Object getbyid(@PathVariable Long id) {
 
         return bookService.getbyid(id).isPresent() ? bookService.getbyid(id).get() : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

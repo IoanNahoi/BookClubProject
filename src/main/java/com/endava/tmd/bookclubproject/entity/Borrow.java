@@ -30,6 +30,7 @@ public class Borrow {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_borrow;
 
     private LocalDate date_when_borrowed;

@@ -18,7 +18,9 @@ public class BookOwnerController {
     }
 
     @PostMapping
-    public void addBookAndOwner(@RequestParam long idUser, @RequestParam long idBook) {
+    public void addBookAndOwner(@RequestParam("idUser") long idUser, @RequestParam("idBook") long idBook) {
         bookOwnerService.addBookAndOwner(idUser, idBook);
     }
 }
+///deci
+///cum trimit 2 argumente aici?

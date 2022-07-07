@@ -15,10 +15,11 @@ import javax.persistence.*;
 @Getter
 public class BookOwner {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User user;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Book book;
 
 //    @ManyToMany

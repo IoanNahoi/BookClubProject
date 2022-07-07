@@ -50,7 +50,7 @@ public class BorrowService {
         borrow.setUser_who_borrowed(userRepository.findById(idUser).get());
         borrow.setBorrowed_book(bookRepository.findById(idBook).get());
         borrow.setDate_when_borrowed(LocalDate.now());
-        borrow.setDate_when_borrowed(LocalDate.now().plusDays(borrowDays));
+        borrow.setDate_when_return(LocalDate.now().plusDays(borrowDays));
         borrowRepository.save(borrow);
     }
 
