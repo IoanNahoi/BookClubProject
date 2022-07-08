@@ -14,7 +14,7 @@ public interface BorrowRepository extends JpaRepository<Borrow, Long> {
 //@Query("SELECT b from Borrow b join booksowners b2 on b.borrowed_book = b2.book_id and b2.user_id =:idOwner")
 //    @Query("SELECT b FROM BookOwner b join b.user.id where b.user.id=:idOwner")
     @Query("SELECT b from Borrow b where b.id_owner_book=:idOwner")
-    List<Borrow> seeWhoBorrowedAndWhenReturn(Long idOwner);
+  Borrow seeWhoBorrowedAndWhenReturn(Long idOwner);
 
     @Query("SELECT b from BookOwner b where b.book.id=:idBook")
     Long idUserByBookId(Long idBook);

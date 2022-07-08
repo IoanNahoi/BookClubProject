@@ -20,7 +20,6 @@ public class BorrowService {
     private final UserRepository userRepository;
     @Autowired
     private final BookRepository bookRepository;
-
     @Autowired
     private final BookOwnerRepository bookOwnerRepository;
 
@@ -59,8 +58,12 @@ public class BorrowService {
         borrowRepository.save(borrow);
     }
 
-    public String seeWhoBorrowed(long id) {
-        return borrowRepository.seeWhoBorrowedAndWhenReturn(id).stream().map(n -> n.getUser_who_borrowed() + " " + n.getDate_when_return() + "\n").toString();
+    public Borrow seeWhoBorrowed(long id) {
+//        return borrowRepository.seeWhoBorrowedAndWhenReturn(id).stream().map(n -> n.getUser_who_borrowed() + " " + n.getDate_when_return() + "\n").toString();
+//        return borrowRepository.seeWhoBorrowedAndWhenReturn(id).toString();
+//       borrowRepository.seeWhoBorrowedAndWhenReturn(id).forEach(n-> System.out.println(n.getUser_who_borrowed()));
+        return borrowRepository.seeWhoBorrowedAndWhenReturn(id);
     }
+
 
 }

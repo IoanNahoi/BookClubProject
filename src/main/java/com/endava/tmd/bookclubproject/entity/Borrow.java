@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "borrow")
@@ -39,7 +38,6 @@ public class Borrow {
     private Long id_owner_book;
 
     public Borrow(number_of_days_to_borrow days, User user_who_borrowed) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         this.date_when_borrowed = LocalDate.now();
         this.date_when_return = LocalDate.now().plusDays(Long.parseLong(String.valueOf(days)));
         this.user_who_borrowed = user_who_borrowed;
