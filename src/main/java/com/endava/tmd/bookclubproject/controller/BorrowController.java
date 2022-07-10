@@ -48,6 +48,7 @@ public class BorrowController {
 
     @GetMapping(value = "/seeWhoBorrowed")
     public String getUserWhoBorrowed(@RequestParam("id") Long id) {
+        /// TODO: 7/10/2022 make borrow list
         Borrow borrow = borrowService.seeWhoBorrowed(id);
         return ("Username:" + borrow.getUser_who_borrowed().getFirstName() + " " + borrow.getUser_who_borrowed().getLastName() + " a imprumutat cartea si o va returna in data de: " + borrowService.seeWhoBorrowed(id).getDate_when_return());
     }
