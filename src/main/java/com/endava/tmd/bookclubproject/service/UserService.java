@@ -1,6 +1,7 @@
 package com.endava.tmd.bookclubproject.service;
 
 import com.endava.tmd.bookclubproject.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.endava.tmd.bookclubproject.repository.UserRepository;
 
@@ -9,34 +10,35 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
     public UserService(UserRepository repository) {
-        this.repository = repository;
+        this.userRepository = repository;
     }
 
     public List<User> getAll() {
-        return repository.findAll();
+        return userRepository.findAll();
     }
 
-    public Optional<User> getbyid(long id){
-        return repository.findById(id);
+    public Optional<User> getbyid(Long id) {
+        return userRepository.findById(id);
     }
 
     public void addUser(User user) {
-        repository.save(user);
+        userRepository.save(user);
     }
 
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        userRepository.deleteById(id);
     }
-    public void update(User user){
-        if(repository.findById(user.getId()).isPresent()){
-            repository.save(user);
+
+    public void update(User user) {
+        if (userRepository.findById(user.getId()).isPresent()) {
+            userRepository.save(user);
         }
     }
-    public User getUserByNameOrEmail(Optional<String>name,Optional<String> email){
-        return repository.getUserByNameOrEmail(name,email);
+
+    public User getUserByNameOrEmail(Optional<String> name, Optional<String> email) {
+        return userRepository.getUserByNameOrEmail(name, email);
     }
 }

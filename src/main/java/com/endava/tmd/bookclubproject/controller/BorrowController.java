@@ -47,7 +47,13 @@ public class BorrowController {
     }
 
     @GetMapping(value = "/seeWhoBorrowed")
-    public void getUserWhoBorrowed(@RequestParam("id") Long id){
-        borrowService.seeWhoBorrowed(id);
+    public String getUserWhoBorrowed(@RequestParam("id") Long id) {
+        Borrow borrow = borrowService.seeWhoBorrowed(id);
+        return ("Username:" + borrow.getUser_who_borrowed().getFirstName() + " " + borrow.getUser_who_borrowed().getLastName() + " a imprumutat cartea si o va returna in data de: " + borrowService.seeWhoBorrowed(id).getDate_when_return());
+    }
+
+    @PutMapping(value = "/extendPeriod")
+    public void extendPeriod(@RequestParam("days") int days, @RequestParam("idUser") Long id, @RequestParam("bookName") String bookName) {
+        borrowService.updatePeriod(days, id, bookName);
     }
 }

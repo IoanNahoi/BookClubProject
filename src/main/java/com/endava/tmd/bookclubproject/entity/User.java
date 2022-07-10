@@ -26,6 +26,10 @@ public class User {
     @Column(unique = true)
     private String email;
 
+    private String firstName;
+
+    private String lastName;
+
 //    @ManyToMany(mappedBy = "userListOwners")
 //    private Set<BookOwner> bookListOwners;
 
@@ -37,5 +41,5 @@ public class User {
 
     @OneToMany(mappedBy = "borrowed_book")
     List<Borrow> booked_borrow_list;
-    
+
 }

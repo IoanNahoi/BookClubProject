@@ -4,6 +4,7 @@ import com.endava.tmd.bookclubproject.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.ValidationAnnotationUtils;
 import org.springframework.web.bind.annotation.*;
 import com.endava.tmd.bookclubproject.service.UserService;
 
@@ -13,7 +14,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("users")
 public class UserController {
-
     @Autowired
     private final UserService userService;
 
@@ -33,8 +33,7 @@ public class UserController {
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    @PostMapping
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public void addUser(@RequestBody final User user) {
         userService.addUser(user);
     }

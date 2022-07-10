@@ -43,8 +43,8 @@ public class Borrow {
         this.user_who_borrowed = user_who_borrowed;
     }
 
-    @ManyToOne()
-    @JoinColumn(name = "id_user")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private User user_who_borrowed;
 
     @ManyToOne()

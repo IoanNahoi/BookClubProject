@@ -1,5 +1,6 @@
 package com.endava.tmd.bookclubproject.service;
 
+import com.endava.tmd.bookclubproject.entity.BookOwner;
 import com.endava.tmd.bookclubproject.entity.Borrow;
 import com.endava.tmd.bookclubproject.repository.BookOwnerRepository;
 import com.endava.tmd.bookclubproject.repository.BookRepository;
@@ -14,7 +15,6 @@ import java.util.Optional;
 
 @Service
 public class BorrowService {
-    @Autowired
     private final BorrowRepository borrowRepository;
     @Autowired
     private final UserRepository userRepository;
@@ -58,12 +58,18 @@ public class BorrowService {
         borrowRepository.save(borrow);
     }
 
-    public Borrow seeWhoBorrowed(long id) {
+    public Borrow seeWhoBorrowed(Long id) {
 //        return borrowRepository.seeWhoBorrowedAndWhenReturn(id).stream().map(n -> n.getUser_who_borrowed() + " " + n.getDate_when_return() + "\n").toString();
 //        return borrowRepository.seeWhoBorrowedAndWhenReturn(id).toString();
-//       borrowRepository.seeWhoBorrowedAndWhenReturn(id).forEach(n-> System.out.println(n.getUser_who_borrowed()));
+//        borrowRepository.seeWhoBorrowedAndWhenReturn(id).forEach(n-> System.out.println(n.getUser_who_borrowed()));
         return borrowRepository.seeWhoBorrowedAndWhenReturn(id);
     }
 
+    public Borrow updatePeriod(long days, Long idUser, String bookName) {
 
+        Borrow borrow = borrowRepository.getBorrowByIdUserAndBookName(idUser, bookRepository.getIdByTitle(bookName));
+        borrow.setDate_when_return(borrow.getDate_when_return().plusDays(days));
+        borrowRepository.save(borrow);
+        return borrow;
+    }
 }
