@@ -38,7 +38,6 @@ public class BorrowService {
         return borrowRepository.findById(id);
     }
 
-
     public void deleteById(Long id) {
         borrowRepository.deleteById(id);
     }
@@ -59,14 +58,10 @@ public class BorrowService {
     }
 
     public List<Borrow> borrowDetails(Long id) {
-//        return borrowRepository.seeWhoBorrowedAndWhenReturn(id).stream().map(n -> n.getUser_who_borrowed() + " " + n.getDate_when_return() + "\n").toString();
-//        return borrowRepository.seeWhoBorrowedAndWhenReturn(id).toString();
-//        borrowRepository.seeWhoBorrowedAndWhenReturn(id).forEach(n-> System.out.println(n.getUser_who_borrowed()));
-        return   borrowRepository.getBorrowDetails(id);
+        return  borrowRepository.getBorrowDetails(id);
     }
 
     public Borrow updatePeriod(long days, Long idUser, String bookName) {
-
         Borrow borrow = borrowRepository.getBorrowByIdUserAndBookName(idUser, bookRepository.getIdByTitle(bookName));
         borrow.setDate_when_return(borrow.getDate_when_return().plusDays(days));
         borrowRepository.save(borrow);

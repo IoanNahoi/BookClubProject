@@ -31,7 +31,6 @@ public class BorrowController {
     }
 
     @PostMapping
-//    @RequestMapping({"idUser","idBook","period"})
     public void addBorrow(@RequestParam("idUser") Long idUser, @RequestParam("idBook") Long idBook, @RequestParam("period") int days) {
         borrowService.add(idUser, idBook, days);
     }

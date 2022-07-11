@@ -9,10 +9,6 @@ import java.util.List;
 
 public interface BorrowRepository extends JpaRepository<Borrow, Long> {
 
-    //    @Query("INSERT into booksowners values(idUser,idBook)")
-//    void postToDatabase(long idUser,long idBook)
-//@Query("SELECT b from Borrow b join booksowners b2 on b.borrowed_book = b2.book_id and b2.user_id =:idOwner")
-//    @Query("SELECT b FROM BookOwner b join b.user.id where b.user.id=:idOwner")
     @Query("SELECT b from Borrow b where b.id_owner_book=:idOwner")
     List<Borrow> getBorrowDetails(Long idOwner);
 

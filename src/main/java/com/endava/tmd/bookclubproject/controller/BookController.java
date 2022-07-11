@@ -37,22 +37,23 @@ public class BookController {
         bookService.addBook(book);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "{id}")
     public void delete(@PathVariable Long id) {
         bookService.deleteById(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping
     public void update(@RequestParam Book book) {
         bookService.update(book);
     }
 
-    @RequestMapping(value = "/title", method = RequestMethod.GET)
+    @GetMapping(value = "/title")
     public Book getBookByTitle(@RequestParam(value = "title") Optional<String> title) {
         return bookService.getBookByTitle(title);
     }
+
     @GetMapping(value = "/available")
-    public List<Book> getAvailableBooks(){
+    public List<Book> getAvailableBooks() {
         return bookService.getAvailableBooks();
     }
 }

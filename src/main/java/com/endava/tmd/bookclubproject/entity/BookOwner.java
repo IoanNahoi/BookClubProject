@@ -22,11 +22,4 @@ public class BookOwner {
     @ManyToOne
     private Book book;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "booksowners",
-//            joinColumns = @JoinColumn(name = "id_book"),
-//            inverseJoinColumns = @JoinColumn(name = "id_owner"))
-//    private List<User> userListOwners;
-
 }

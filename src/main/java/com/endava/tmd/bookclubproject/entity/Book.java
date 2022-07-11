@@ -34,12 +34,6 @@ public class Book {
     )
     private Set<User> waitingList;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "booksowners",
-//            joinColumns = @JoinColumn(name = "id_book",table = "book",referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "id_owner",table = "accounts",referencedColumnName = "id"))
-//    private Set<User> userList;
 }
 
 
