@@ -26,9 +26,8 @@ public class UserController {
         return userService.getAll();
     }
 
-    @GetMapping
-    @RequestMapping("{id}")
-    public Object getbyid(@PathVariable Long id) {
+    @GetMapping(value = "getById")
+    public Object getbyid(@RequestParam("idUser") Long id) {
         return userService.getbyid(id).isPresent() ? userService.getbyid(id).get() :
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

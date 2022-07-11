@@ -17,4 +17,7 @@ public interface BorrowRepository extends JpaRepository<Borrow, Long> {
 
     @Query("select b from Borrow b where b.user_who_borrowed.id=:idUser AND b.borrowed_book.id=:bookID")
     Borrow getBorrowByIdUserAndBookName(Long idUser, Long bookID);
+
+    @Query("SELECT b from Borrow b where b.borrowed_book.title=:title")
+    Borrow checkBookAvailability(String title);
 }

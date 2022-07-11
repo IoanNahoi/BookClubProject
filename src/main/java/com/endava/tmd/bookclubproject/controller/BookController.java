@@ -48,7 +48,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/title")
-    public Book getBookByTitle(@RequestParam(value = "title") Optional<String> title) {
+    public Book getBookByTitle(@RequestParam(value = "title") String title) {
         return bookService.getBookByTitle(title);
     }
 
@@ -56,4 +56,6 @@ public class BookController {
     public List<Book> getAvailableBooks() {
         return bookService.getAvailableBooks();
     }
+
+
 }

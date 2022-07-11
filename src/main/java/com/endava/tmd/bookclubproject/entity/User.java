@@ -19,19 +19,20 @@ public class User {
     private Long id;
 
     @Column(unique = true)
+    @NonNull
     private String username;
 
+    @NonNull
     private String password;
 
     @Column(unique = true)
     private String email;
 
+    @NonNull
     private String firstName;
 
+    @NonNull
     private String lastName;
-
-//    @ManyToMany(mappedBy = "userListOwners")
-//    private Set<BookOwner> bookListOwners;
 
     @ManyToMany(mappedBy = "waitingList")
     private List<Book> waitingForBooks;

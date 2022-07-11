@@ -1,5 +1,6 @@
 package com.endava.tmd.bookclubproject.service;
 
+import com.endava.tmd.bookclubproject.entity.Book;
 import com.endava.tmd.bookclubproject.entity.BookOwner;
 import com.endava.tmd.bookclubproject.entity.Borrow;
 import com.endava.tmd.bookclubproject.repository.BookOwnerRepository;
@@ -66,5 +67,8 @@ public class BorrowService {
         borrow.setDate_when_return(borrow.getDate_when_return().plusDays(days));
         borrowRepository.save(borrow);
         return borrow;
+    }
+    public Borrow checkBookAvailability(String title){
+        return borrowRepository.checkBookAvailability(title);
     }
 }

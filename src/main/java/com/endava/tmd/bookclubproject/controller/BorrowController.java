@@ -1,12 +1,14 @@
 package com.endava.tmd.bookclubproject.controller;
 
 import com.endava.tmd.bookclubproject.entity.Borrow;
+import com.endava.tmd.bookclubproject.service.BookService;
 import com.endava.tmd.bookclubproject.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -15,8 +17,12 @@ public class BorrowController {
     @Autowired
     private final BorrowService borrowService;
 
-    public BorrowController(BorrowService borrowService) {
+    @Autowired
+    private final BookService bookService;
+
+    public BorrowController(BorrowService borrowService, BookService bookService) {
         this.borrowService = borrowService;
+        this.bookService = bookService;
     }
 
     @GetMapping
@@ -55,7 +61,7 @@ public class BorrowController {
         return builder;
     }
 
-    @GetMapping(value = "whatIBorrowed")
+    @GetMapping(value = "/whatIBorrowed")
     public StringBuilder getWhatIBorrowed(@RequestParam("idUser") Long id) {
         List<Borrow> borrow = borrowService.borrowDetails(id);
         StringBuilder builder = new StringBuilder();
@@ -69,5 +75,18 @@ public class BorrowController {
     @PutMapping(value = "/extendPeriod")
     public void extendPeriod(@RequestParam("days") int days, @RequestParam("idUser") Long id, @RequestParam("bookName") String bookName) {
         borrowService.updatePeriod(days, id, bookName);
+    }
+
+    @GetMapping(value = "checkAvailable")
+    public String checkBookAvailable(@RequestParam("title") String title) {
+        Borrow borrow = borrowService.checkBookAvailability(title);
+        if ( borrow==null) {
+            if(bookService.getBookByTitle(title)== null)
+                return "Carte nu exista";
+            return "Cartea este disponibila";
+        } else if (borrow.getDate_when_return().isAfter(LocalDate.now()) ) {
+            return "Cartea nu este disponibila si va fi returnata in data de: " + borrow.getDate_when_return();
+        }
+        return "ERROR";
     }
 }
