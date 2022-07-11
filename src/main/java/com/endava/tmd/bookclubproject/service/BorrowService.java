@@ -58,11 +58,11 @@ public class BorrowService {
         borrowRepository.save(borrow);
     }
 
-    public Borrow seeWhoBorrowed(Long id) {
+    public List<Borrow> borrowDetails(Long id) {
 //        return borrowRepository.seeWhoBorrowedAndWhenReturn(id).stream().map(n -> n.getUser_who_borrowed() + " " + n.getDate_when_return() + "\n").toString();
 //        return borrowRepository.seeWhoBorrowedAndWhenReturn(id).toString();
 //        borrowRepository.seeWhoBorrowedAndWhenReturn(id).forEach(n-> System.out.println(n.getUser_who_borrowed()));
-        return borrowRepository.seeWhoBorrowedAndWhenReturn(id);
+        return   borrowRepository.getBorrowDetails(id);
     }
 
     public Borrow updatePeriod(long days, Long idUser, String bookName) {

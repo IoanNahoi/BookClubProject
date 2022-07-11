@@ -47,10 +47,24 @@ public class BorrowController {
     }
 
     @GetMapping(value = "/seeWhoBorrowed")
-    public String getUserWhoBorrowed(@RequestParam("id") Long id) {
-        /// TODO: 7/10/2022 make borrow list
-        Borrow borrow = borrowService.seeWhoBorrowed(id);
-        return ("Username:" + borrow.getUser_who_borrowed().getFirstName() + " " + borrow.getUser_who_borrowed().getLastName() + " a imprumutat cartea si o va returna in data de: " + borrowService.seeWhoBorrowed(id).getDate_when_return());
+    public StringBuilder getUserWhoBorrowed(@RequestParam("id") Long id) {
+        List<Borrow> borrow = borrowService.borrowDetails(id);
+        StringBuilder builder = new StringBuilder();
+        for (Borrow borrow1 : borrow) {
+            builder.append("Utilizatorul " + borrow1.getUser_who_borrowed().getFirstName() + " " + borrow1.getUser_who_borrowed().getLastName() + " a imprumutat cartea si o va returna in data de: " + borrow1.getDate_when_return() + '\n');
+        }
+        return builder;
+    }
+
+    @GetMapping(value = "whatIBorrowed")
+    public StringBuilder getWhatIBorrowed(@RequestParam("idUser") Long id) {
+        List<Borrow> borrow = borrowService.borrowDetails(id);
+        StringBuilder builder = new StringBuilder();
+
+        for (Borrow borrow1 : borrow) {
+            builder.append("Ai imprumutat cartea: " + borrow1.getBorrowed_book().getTitle() + " scrisa de " + borrow1.getBorrowed_book().getAuthor() + " si trebuie returnata pana in data de: " + borrow1.getDate_when_return() + '\n');
+        }
+        return builder;
     }
 
     @PutMapping(value = "/extendPeriod")
