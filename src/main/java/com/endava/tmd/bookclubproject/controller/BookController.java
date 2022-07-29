@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("book")
+@CrossOrigin
 public class BookController {
     @Autowired
     private final BookService bookService;
@@ -28,7 +29,6 @@ public class BookController {
     @GetMapping
     @RequestMapping("{id}")
     public Object getbyid(@PathVariable Long id) {
-
         return bookService.getbyid(id).isPresent() ? bookService.getbyid(id).get() : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -53,8 +53,8 @@ public class BookController {
     }
 
     @GetMapping(value = "/available")
-    public List<Book> getAvailableBooks() {
-        return bookService.getAvailableBooks();
+    public List<Book> getAvailableBooks(@RequestParam(value = "id") long id) {
+        return bookService.getAvailableBooks(id);
     }
 
 

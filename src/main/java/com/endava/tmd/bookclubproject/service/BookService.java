@@ -38,8 +38,8 @@ public class BookService {
     public Book getBookByTitle(String bookTitle){
         return bookRepository.getBookByTitle(bookTitle);
     }
-    public List<Book> getAvailableBooks(){
-        return bookRepository.getAvailableBooks();
+    public List<Book> getAvailableBooks(long id){
+        return bookRepository.getAvailableBooks(id);
     }
 
 

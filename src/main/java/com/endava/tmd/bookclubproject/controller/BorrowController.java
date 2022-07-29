@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("borrow")
+@CrossOrigin
 public class BorrowController {
     @Autowired
     private final BorrowService borrowService;
@@ -37,8 +38,8 @@ public class BorrowController {
     }
 
     @PostMapping
-    public void addBorrow(@RequestParam("idUser") Long idUser, @RequestParam("idBook") Long idBook, @RequestParam("period") int days) {
-        borrowService.add(idUser, idBook, days);
+    public void addBorrow(@RequestParam("idUser") Long idUser, @RequestParam("title") String title, @RequestParam("period") int days) {
+        borrowService.add(idUser, bookService.getBookByTitle(title).getId(), days);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
@@ -46,30 +47,22 @@ public class BorrowController {
         borrowService.deleteById(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping
     public void update(@RequestParam Borrow borrow) {
         borrowService.update(borrow);
     }
 
     @GetMapping(value = "/seeWhoBorrowed")
-    public StringBuilder getUserWhoBorrowed(@RequestParam("id") Long id) {
+    public List<Borrow> getUserWhoBorrowed(@RequestParam("id") Long id) {
         List<Borrow> borrow = borrowService.borrowDetails(id);
-        StringBuilder builder = new StringBuilder();
-        for (Borrow borrow1 : borrow) {
-            builder.append("Utilizatorul " + borrow1.getUser_who_borrowed().getFirstName() + " " + borrow1.getUser_who_borrowed().getLastName() + " a imprumutat cartea si o va returna in data de: " + borrow1.getDate_when_return() + '\n');
-        }
-        return builder;
+        return borrow;
     }
 
     @GetMapping(value = "/whatIBorrowed")
-    public StringBuilder getWhatIBorrowed(@RequestParam("idUser") Long id) {
+    public List<Borrow> getWhatIBorrowed(@RequestParam("idUser") Long id) {
         List<Borrow> borrow = borrowService.borrowDetails(id);
-        StringBuilder builder = new StringBuilder();
+        return borrow;
 
-        for (Borrow borrow1 : borrow) {
-            builder.append("Ai imprumutat cartea: " + borrow1.getBorrowed_book().getTitle() + " scrisa de " + borrow1.getBorrowed_book().getAuthor() + " si trebuie returnata pana in data de: " + borrow1.getDate_when_return() + '\n');
-        }
-        return builder;
     }
 
     @PutMapping(value = "/extendPeriod")
@@ -80,11 +73,11 @@ public class BorrowController {
     @GetMapping(value = "checkAvailable")
     public String checkBookAvailable(@RequestParam("title") String title) {
         Borrow borrow = borrowService.checkBookAvailability(title);
-        if ( borrow==null) {
-            if(bookService.getBookByTitle(title)== null)
+        if (borrow == null) {
+            if (bookService.getBookByTitle(title) == null)
                 return "Carte nu exista";
             return "Cartea este disponibila";
-        } else if (borrow.getDate_when_return().isAfter(LocalDate.now()) ) {
+        } else if (borrow.getDate_when_return().isAfter(LocalDate.now())) {
             return "Cartea nu este disponibila si va fi returnata in data de: " + borrow.getDate_when_return();
         }
         return "ERROR";

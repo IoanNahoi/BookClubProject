@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
+@CrossOrigin
 public class UserController {
     @Autowired
     private final UserService userService;
@@ -30,6 +31,11 @@ public class UserController {
     public Object getbyid(@RequestParam("idUser") Long id) {
         return userService.getbyid(id).isPresent() ? userService.getbyid(id).get() :
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(value = "usernameAndPass")
+    public Object login(@RequestParam("username") String username, @RequestParam("password") String password) {
+            return userService.login(username, password);
     }
 
     @PostMapping

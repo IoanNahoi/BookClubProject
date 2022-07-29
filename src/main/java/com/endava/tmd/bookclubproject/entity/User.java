@@ -1,5 +1,6 @@
 package com.endava.tmd.bookclubproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,12 +37,15 @@ public class User {
     private String lastName;
 
     @ManyToMany(mappedBy = "waitingList")
+    @JsonIgnore
     private List<Book> waitingForBooks;
 
     @OneToMany(mappedBy = "user_who_borrowed")
+    @JsonIgnore
     List<Borrow> borrowList;
 
     @OneToMany(mappedBy = "borrowed_book")
+    @JsonIgnore
     List<Borrow> booked_borrow_list;
 
 }

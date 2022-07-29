@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BorrowRepository extends JpaRepository<Borrow, Long> {
 
-    @Query("SELECT b from Borrow b where b.id_owner_book=:idOwner")
+    @Query("SELECT b from Borrow b where b.user_who_borrowed.id=:idOwner")
     List<Borrow> getBorrowDetails(Long idOwner);
 
     @Query("SELECT b from BookOwner b where b.book.id=:idBook")

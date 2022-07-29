@@ -2,6 +2,8 @@ package com.endava.tmd.bookclubproject.service;
 
 import com.endava.tmd.bookclubproject.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.endava.tmd.bookclubproject.repository.UserRepository;
 
@@ -41,5 +43,9 @@ public class UserService {
 
     public User getUserByNameOrEmail(Optional<String> name, Optional<String> email) {
         return userRepository.getUserByNameOrEmail(name, email);
+    }
+
+    public Object login(String username, String password) {
+        return userRepository.login(username, password).isPresent() ? (User) userRepository.login(username, password).get() : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
