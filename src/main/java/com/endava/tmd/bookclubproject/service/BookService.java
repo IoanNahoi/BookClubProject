@@ -2,17 +2,23 @@ package com.endava.tmd.bookclubproject.service;
 
 import com.endava.tmd.bookclubproject.entity.Book;
 import com.endava.tmd.bookclubproject.repository.BookRepository;
+import com.endava.tmd.bookclubproject.repository.BorrowRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
     private final BookRepository bookRepository;
+    private final BorrowRepository borrowRepository;
 
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, BorrowRepository borrowRepository) {
         this.bookRepository = bookRepository;
+        this.borrowRepository = borrowRepository;
     }
 
     public List<Book> getAll() {
@@ -35,14 +41,28 @@ public class BookService {
         if (bookRepository.findById(book.getId()).isPresent())
             bookRepository.save(book);
     }
-    public Book getBookByTitle(String bookTitle){
+
+    public Book getBookByTitle(String bookTitle) {
         return bookRepository.getBookByTitle(bookTitle);
     }
-    public List<Book> getAvailableBooks(long id){
-        return bookRepository.getAvailableBooks(id);
+
+    public List<Book> getAvailableBooks(long id) {
+        List<Book> bookList = borrowRepository.getBooksByOwner(id);
+        List<Book> allBooks = bookRepository.getAvailableBooks();
+        List<Book> newList = new ArrayList<>();
+        for (Book allBook : allBooks) {
+            boolean ok = true;
+            for (Book book : bookList) {
+                if (!ok) break;
+                if (Objects.equals(allBook.getId(), book.getId()))
+                    ok = false;
+            }
+            if(ok)
+                newList.add(allBook);
+        }
+        return newList;
+
     }
-
-
 
 
 }
