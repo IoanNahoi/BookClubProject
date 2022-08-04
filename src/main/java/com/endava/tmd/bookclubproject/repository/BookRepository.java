@@ -18,5 +18,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT b.id from Book b where b.title=:title")
     Long getIdByTitle(String title);
 
-
+    @Query("SELECT b from Book  b where b.id in(SELECT borrowed_book from Borrow )")
+    List<Book> getUnavailableBooks();
 }

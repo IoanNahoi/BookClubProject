@@ -57,11 +57,29 @@ public class BookService {
                 if (Objects.equals(allBook.getId(), book.getId()))
                     ok = false;
             }
-            if(ok)
+            if (ok)
                 newList.add(allBook);
         }
         return newList;
 
+    }
+
+    public List<Book> getUnavailableBooks(long id) {
+        List<Book> bookList = borrowRepository.getBooksByOwner(id);
+        List<Book> allBooks = bookRepository.getUnavailableBooks();
+        List<Book> newList = new ArrayList<>();
+
+        for (Book allBook : allBooks) {
+            boolean ok = true;
+            for (Book book : bookList) {
+                if (!ok) break;
+                if (Objects.equals(allBook.getId(), book.getId()))
+                    ok = false;
+            }
+            if (ok)
+                newList.add(allBook);
+        }
+        return newList;
     }
 
 

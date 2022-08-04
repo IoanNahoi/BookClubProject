@@ -36,9 +36,7 @@ public class User {
     @NonNull
     private String lastName;
 
-    @ManyToMany(mappedBy = "waitingList")
-    @JsonIgnore
-    private List<Book> waitingForBooks;
+
 
     @OneToMany(mappedBy = "user_who_borrowed")
     @JsonIgnore

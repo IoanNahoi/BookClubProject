@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping(value = "usernameAndPass")
     public Object login(@RequestParam("username") String username, @RequestParam("password") String password) {
-            return userService.login(username, password);
+        return userService.login(username, password);
     }
 
     @PostMapping
@@ -57,5 +57,10 @@ public class UserController {
     public User getUserByNameOrEmail(@RequestParam(value = "name") Optional<String> name, @RequestParam(value = "email") Optional<String> email) {
         return userService.getUserByNameOrEmail(name, email);
     }
+
+//    @PostMapping(value = "/waiting")
+//    public void addWaiting(@RequestParam(value = "idUserWhoBorrow") long idUser, @RequestParam(value = "title") String title) {
+//        userService.addWaitingList(idUser, title);
+//    }
 
 }

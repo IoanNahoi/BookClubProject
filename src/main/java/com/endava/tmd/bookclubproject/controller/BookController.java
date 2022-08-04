@@ -57,5 +57,10 @@ public class BookController {
         return bookService.getAvailableBooks(id);
     }
 
+    @GetMapping(value = "/unavailable")
+    public List<Book> getUnavailableBooks(@RequestParam(value = "id") long id) {
+        return bookService.getUnavailableBooks(id);
+    }
+
 
 }

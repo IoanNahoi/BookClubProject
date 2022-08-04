@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u from User u where u.username=:username and u.password=:password")
     Optional<User> login(String username, String password);
+
+//    @Query("INSERT INTO waitinglist(id_book,id_user) values(idBook,idUser) ")
+//    void addWaiting(long idUser, long idBook);
 }

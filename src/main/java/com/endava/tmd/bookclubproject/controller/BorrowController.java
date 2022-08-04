@@ -60,7 +60,7 @@ public class BorrowController {
 
     @GetMapping(value = "/whatIBorrowed")
     public List<Borrow> getWhatIBorrowed(@RequestParam("idUser") Long id) {
-        List<Borrow> borrow = borrowService.borrowDetails(id);
+        List<Borrow> borrow = borrowService.whatIBorrowed(id);
         return borrow;
 
     }

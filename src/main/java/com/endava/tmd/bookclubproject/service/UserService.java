@@ -2,21 +2,28 @@ package com.endava.tmd.bookclubproject.service;
 
 import com.endava.tmd.bookclubproject.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.endava.tmd.bookclubproject.repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 @Service
 public class UserService {
     @Autowired
     private final UserRepository userRepository;
+    private final BookService bookService;
 
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, BookService bookService) {
         this.userRepository = repository;
+        this.bookService = bookService;
     }
 
     public List<User> getAll() {
@@ -48,4 +55,15 @@ public class UserService {
     public Object login(String username, String password) {
         return userRepository.login(username, password).isPresent() ? (User) userRepository.login(username, password).get() : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+//    @Transactional
+//    public void addWaitingList(long idUser, String title) {
+////        userRepository.addWaiting(idUser,bookService.getBookByTitle(title).getId());
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("BookClubProject");
+//        EntityManager entityManager = emf.createEntityManager();
+//
+//        entityManager.createNativeQuery("INSERT INTO waitinglist (id_book,id_user) values(?,?) ")
+//                .setParameter(1, bookService.getBookByTitle(title).getId())
+//                .setParameter(2, idUser);
+//    }
 }

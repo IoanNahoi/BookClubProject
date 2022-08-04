@@ -71,4 +71,8 @@ public class BorrowService {
     public Borrow checkBookAvailability(String title){
         return borrowRepository.checkBookAvailability(title);
     }
+
+    public List<Borrow> whatIBorrowed(Long id) {
+        return borrowRepository.getWhatIBorrowed(id);
+    }
 }
