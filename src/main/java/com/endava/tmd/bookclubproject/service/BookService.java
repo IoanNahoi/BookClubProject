@@ -83,4 +83,7 @@ public class BookService {
     }
 
 
+    public List<Book> getMyBooks(long id) {
+    return bookRepository.getMyBooks(id);
+    }
 }

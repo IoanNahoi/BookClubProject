@@ -20,4 +20,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("SELECT b from Book  b where b.id in(SELECT borrowed_book from Borrow )")
     List<Book> getUnavailableBooks();
+
+    @Query("SELECT b.book from BookOwner b where b.user.id=:id ")
+    List<Book> getMyBooks(long id);
 }
