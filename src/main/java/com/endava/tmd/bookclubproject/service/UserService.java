@@ -1,29 +1,47 @@
 package com.endava.tmd.bookclubproject.service;
 
+import com.endava.tmd.bookclubproject.entity.Role;
 import com.endava.tmd.bookclubproject.entity.User;
+import com.endava.tmd.bookclubproject.repository.RoleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.endava.tmd.bookclubproject.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 @Service
-public class UserService {
+@RequiredArgsConstructor
+public class UserService implements UserDetailsService {
     @Autowired
     private final UserRepository userRepository;
     private final BookService bookService;
+    private final RoleRepository roleRepository;
 
-    public UserService(UserRepository repository, BookService bookService) {
-        this.userRepository = repository;
-        this.bookService = bookService;
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user.getId() == null) {
+            throw new UsernameNotFoundException("Username not found in Database!");
+        }
+        Collection<SimpleGrantedAuthority> authorities=new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),authorities);
     }
 
     public List<User> getAll() {
@@ -56,14 +74,20 @@ public class UserService {
         return userRepository.login(username, password).isPresent() ? (User) userRepository.login(username, password).get() : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    @Transactional
-//    public void addWaitingList(long idUser, String title) {
-////        userRepository.addWaiting(idUser,bookService.getBookByTitle(title).getId());
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("BookClubProject");
-//        EntityManager entityManager = emf.createEntityManager();
-//
-//        entityManager.createNativeQuery("INSERT INTO waitinglist (id_book,id_user) values(?,?) ")
-//                .setParameter(1, bookService.getBookByTitle(title).getId())
-//                .setParameter(2, idUser);
-//    }
+    public Role saveRole(Role role) {
+        return roleRepository.save(role);
+    }
+
+    public Role getRoleByName(String name) {
+        return roleRepository.findRoleByName(name);
+    }
+
+    public void addRoleToUser(String username, String roleName) {
+        User user = userRepository.findByUsername(username);
+        Role role = roleRepository.findRoleByName(roleName);
+        user.setRole(role);
+        userRepository.save(user);
+    }
+
+
 }

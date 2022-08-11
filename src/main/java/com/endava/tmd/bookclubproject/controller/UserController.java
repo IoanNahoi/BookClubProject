@@ -27,6 +27,11 @@ public class UserController {
         return userService.getAll();
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers(){
+        return ResponseEntity.ok().body(userService.getAll());
+    }
+
     @GetMapping(value = "getById")
     public Object getbyid(@RequestParam("idUser") Long id) {
         return userService.getbyid(id).isPresent() ? userService.getbyid(id).get() :
@@ -40,7 +45,9 @@ public class UserController {
 
     @PostMapping
     public void addUser(@RequestBody final User user) {
+
         userService.addUser(user);
+        userService.addRoleToUser(user.getUsername(),"USER");
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
