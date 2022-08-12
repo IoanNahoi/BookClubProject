@@ -22,8 +22,4 @@ public class RoleService {
     public Role saveRole(Role role) {
         return roleRepository.save(role);
     }
-
-
-
-
 }

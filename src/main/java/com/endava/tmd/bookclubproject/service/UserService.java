@@ -39,9 +39,9 @@ public class UserService implements UserDetailsService {
         if (user.getId() == null) {
             throw new UsernameNotFoundException("Username not found in Database!");
         }
-        Collection<SimpleGrantedAuthority> authorities=new ArrayList<>();
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
     public List<User> getAll() {
@@ -53,7 +53,9 @@ public class UserService implements UserDetailsService {
     }
 
     public void addUser(User user) {
-        userRepository.save(user);
+        if (userRepository.findByUsername(user.getUsername()) == null) {
+            userRepository.save(user);
+        }
     }
 
     public void deleteById(Long id) {
@@ -74,8 +76,10 @@ public class UserService implements UserDetailsService {
         return userRepository.login(username, password).isPresent() ? (User) userRepository.login(username, password).get() : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public Role saveRole(Role role) {
-        return roleRepository.save(role);
+    public void saveRole(Role role) {
+        if (roleRepository.findRoleByName(role.getName()) == null) {
+            roleRepository.save(role);
+        }
     }
 
     public Role getRoleByName(String name) {
@@ -88,6 +92,4 @@ public class UserService implements UserDetailsService {
         user.setRole(role);
         userRepository.save(user);
     }
-
-
 }
