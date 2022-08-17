@@ -45,9 +45,7 @@ public class UserController {
 
     @PostMapping
     public void addUser(@RequestBody final User user) {
-
         userService.addUser(user);
-        userService.addRoleToUser(user.getUsername(),"USER");
     }
 
     @RequestMapping(method = RequestMethod.DELETE)

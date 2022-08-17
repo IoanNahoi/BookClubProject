@@ -4,6 +4,7 @@ import com.endava.tmd.bookclubproject.entity.WaitingList;
 import com.endava.tmd.bookclubproject.service.BookService;
 import com.endava.tmd.bookclubproject.service.UserService;
 import com.endava.tmd.bookclubproject.service.WaitingListService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,8 +23,12 @@ public class WaitingListController {
 
     @PostMapping("/waiting")
     public void addWaiting(@RequestParam(value = "idUserWhoBorrow") long idUser, @RequestParam(value = "title") String title) {
-//        WaitingList waitingList=new WaitingList(userService.getbyid(idUser).get().getId(),bookService.getBookByTitle(title));
-        waitingListService.addWaitingList(idUser,title);
+        waitingListService.addWaitingList(idUser, title);
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteWaiting(@RequestParam(value = "id") long idUser, @RequestParam(value = "title") String title) {
+        waitingListService.delete(idUser,title);
     }
 }
 

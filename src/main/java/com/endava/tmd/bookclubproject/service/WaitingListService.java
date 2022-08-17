@@ -32,4 +32,8 @@ public class WaitingListService {
         waitingList.setBook(book);
         waitingListRepository.save(waitingList);
     }
+
+    public void delete(Long idUser, String title) {
+        waitingListRepository.deleteWaitingList(idUser,title);
+    }
 }

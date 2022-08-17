@@ -65,6 +65,10 @@ public class BookController {
     public List<Book>getMyBooks(@RequestParam(value = "idOwner")long id){
         return bookService.getMyBooks(id);
     }
+    @GetMapping(value = "/mywaitinglist")
+    public List<Book>getBooks(@RequestParam(value = "id") long idUser){
+        return bookService.getWaitingList(idUser);
+    }
 
 
 }

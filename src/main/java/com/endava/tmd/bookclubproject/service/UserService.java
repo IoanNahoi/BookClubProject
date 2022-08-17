@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.endava.tmd.bookclubproject.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BookService bookService;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -54,7 +56,10 @@ public class UserService implements UserDetailsService {
 
     public void addUser(User user) {
         if (userRepository.findByUsername(user.getUsername()) == null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
+            addRoleToUser(user.getUsername(),"USER");
+
         }
     }
 

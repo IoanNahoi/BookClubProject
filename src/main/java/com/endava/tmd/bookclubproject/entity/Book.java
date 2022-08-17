@@ -26,14 +26,6 @@ public class Book {
     private String description;
 
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "waitinglist",
-//            joinColumns = @JoinColumn(name = "id_book"),
-//            inverseJoinColumns = @JoinColumn(name = "id_user")
-//    )
-//    private Set<User> waitingList;
-
 }
 
 

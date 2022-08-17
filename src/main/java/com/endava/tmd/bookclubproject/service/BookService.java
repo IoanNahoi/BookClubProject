@@ -86,4 +86,8 @@ public class BookService {
     public List<Book> getMyBooks(long id) {
     return bookRepository.getMyBooks(id);
     }
+
+    public List<Book> getWaitingList(long idUser) {
+        return bookRepository.getWaitingList(idUser);
+    }
 }

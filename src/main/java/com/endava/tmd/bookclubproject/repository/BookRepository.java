@@ -23,4 +23,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("SELECT b.book from BookOwner b where b.user.id=:id ")
     List<Book> getMyBooks(long id);
+
+    @Query("SELECT b.book from WaitingList b where b.user.id=:idUser")
+    List<Book> getWaitingList(long idUser);
 }
