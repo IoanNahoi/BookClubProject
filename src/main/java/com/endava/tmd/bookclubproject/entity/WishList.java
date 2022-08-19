@@ -7,13 +7,13 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "waitinglist")
+@Table(name = "wishlist")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class WaitingList {
+public class WishList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false, unique = true)
