@@ -5,7 +5,6 @@ import com.endava.tmd.bookclubproject.entity.User;
 import com.endava.tmd.bookclubproject.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,22 +14,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.endava.tmd.bookclubproject.repository.UserRepository;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     @Autowired
     private final UserRepository userRepository;
+
     private final BookService bookService;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -42,7 +37,8 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Username not found in Database!");
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
+
+       authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 

@@ -21,19 +21,23 @@ public class WaitingListService {
         this.userService = userService;
         this.bookService = bookService;
     }
-    public List<WaitingList> getAll(){
+
+    public List<WaitingList> getAll() {
         return waitingListRepository.findAll();
     }
-    public void addWaitingList(Long idUser,String title){
-        Book book=bookService.getBookByTitle(title);
-        User user=userService.getbyid(idUser).get();
-        WaitingList waitingList=new WaitingList();
+
+    public void addWaitingList(Long idUser, String title) {
+        Book book = bookService.getBookByTitle(title);
+        User user = userService.getbyid(idUser).get();
+        WaitingList waitingList = new WaitingList();
         waitingList.setUser(user);
         waitingList.setBook(book);
         waitingListRepository.save(waitingList);
     }
 
     public void delete(Long idUser, String title) {
-        waitingListRepository.deleteWaitingList(idUser,title);
+        Book book=bookService.getBookByTitle(title);
+        WaitingList waitingList = waitingListRepository.findByUserId(idUser, book.getId());
+        waitingListRepository.deleteById(waitingList.getId());
     }
 }

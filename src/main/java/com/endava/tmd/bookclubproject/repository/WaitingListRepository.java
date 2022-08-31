@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface WaitingListRepository extends JpaRepository<WaitingList, Long> {
-    @Modifying
-    @Query("DELETE from WaitingList b where b.user.id=:idUser and b.book.title=:title")
-    void deleteWaitingList(Long idUser,String title);
+
+    @Query("SELECT b FROM WaitingList b where  b.book.id=:idBook and b.user.id=:idUser")
+    WaitingList findByUserId(Long idUser, Long idBook);
 }

@@ -23,7 +23,6 @@ public class WishListService {
     public final UserService userService;
     public final BookService bookService;
 
-
     public List<WishList> getAll() {
         return wishListRepository.findAll();
     }
@@ -38,9 +37,8 @@ public class WishListService {
     }
 
     public void delete(Long idUser, String title) {
-//        WishList wishList = wishListRepository.getWishListByUserAndBook(idUser, title);
-//        wishListRepository.deleteById(wishList.getId());
-        wishListRepository.deleteWishList(idUser, title);
+        WishList wishList = wishListRepository.getWishListByUserAndBook(idUser, title);
+        wishListRepository.deleteById(wishList.getId());
     }
 
     public List<Book> getAllAvailable() {
