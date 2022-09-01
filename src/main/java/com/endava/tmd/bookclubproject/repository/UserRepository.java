@@ -16,6 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
 
+    Optional<User> findByEmail(String username);
+
 //    @Query("INSERT INTO waitinglist(id_book,id_user) values(idBook,idUser) ")
 //    void addWaiting(long idUser, long idBook);
 }

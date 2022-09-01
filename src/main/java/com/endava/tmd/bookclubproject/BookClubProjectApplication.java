@@ -17,10 +17,6 @@ public class BookClubProjectApplication {
         SpringApplication.run(BookClubProjectApplication.class, args);
     }
 
-    @Bean
-    BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
 //    @Bean
 //    CommandLineRunner run(UserService userService) {

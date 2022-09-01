@@ -1,13 +1,14 @@
 package com.endava.tmd.bookclubproject.controller;
 
 import com.endava.tmd.bookclubproject.entity.User;
+import com.endava.tmd.bookclubproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.ValidationAnnotationUtils;
 import org.springframework.web.bind.annotation.*;
 import com.endava.tmd.bookclubproject.service.UserService;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +18,12 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private final UserService userService;
+    @Autowired
+    private final UserRepository userRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -28,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok().body(userService.getAll());
     }
 
@@ -38,14 +42,17 @@ public class UserController {
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping(value = "usernameAndPass")
+    @GetMapping(value = "login")
     public Object login(@RequestParam("username") String username, @RequestParam("password") String password) {
         return userService.login(username, password);
     }
 
-    @PostMapping
-    public void addUser(@RequestBody final User user) {
-        userService.addUser(user);
+    @PostMapping(value = "register")
+    public ResponseEntity<User> addUser(@RequestBody final User user) {
+//        userService.addUser(user);
+        User user1 = userRepository.save(user);
+        URI userURI = URI.create("/register" + user1.getId());
+        return ResponseEntity.created(userURI).body(user1);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
