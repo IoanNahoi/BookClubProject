@@ -2,6 +2,7 @@ package com.endava.tmd.bookclubproject.security;
 
 //import com.endava.tmd.bookclubproject.filter.CustomAuthenticationFilter;
 
+import com.endava.tmd.bookclubproject.jwt.JwtFilter;
 import com.endava.tmd.bookclubproject.repository.UserRepository;
 import com.endava.tmd.bookclubproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtFilter jwtFilter;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService);
@@ -47,7 +51,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/authenticate")
                 .permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated().and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 
