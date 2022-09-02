@@ -1,10 +1,18 @@
 package com.endava.tmd.bookclubproject.controller;
 
 import com.endava.tmd.bookclubproject.entity.User;
+import com.endava.tmd.bookclubproject.jwt.JWTUtility;
+import com.endava.tmd.bookclubproject.jwt.JwtRequest;
+import com.endava.tmd.bookclubproject.jwt.JwtResponse;
 import com.endava.tmd.bookclubproject.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import com.endava.tmd.bookclubproject.service.UserService;
 
@@ -14,16 +22,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
+@AllArgsConstructor
 @CrossOrigin
 public class UserController {
     private final UserService userService;
     @Autowired
     private final UserRepository userRepository;
-
-    public UserController(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private final JWTUtility jwtUtility;
+    @Autowired
+    private final AuthenticationManager authenticationManager;
 
     @GetMapping
     public List<User> getAll() {
@@ -44,6 +52,29 @@ public class UserController {
     @GetMapping(value = "login")
     public Object login(@RequestParam("username") String username, @RequestParam("password") String password) {
         return userService.login(username, password);
+    }
+
+    @PostMapping("/authenticate")
+    public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            jwtRequest.getUsername(),
+                            jwtRequest.getPassword()
+                    )
+            );
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
+
+        final UserDetails userDetails
+                = userService.loadUserByUsername(jwtRequest.getUsername());
+
+        final String token =
+                jwtUtility.generateToken(userDetails);
+
+        return new JwtResponse(token);
     }
 
     @PostMapping(value = "register")
