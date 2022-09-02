@@ -16,7 +16,6 @@ import java.util.Optional;
 @RequestMapping("users")
 @CrossOrigin
 public class UserController {
-    @Autowired
     private final UserService userService;
     @Autowired
     private final UserRepository userRepository;

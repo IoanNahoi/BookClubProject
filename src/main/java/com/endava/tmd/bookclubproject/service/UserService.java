@@ -42,9 +42,18 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
+//    @Override
+//    public UserDetails loadUserByUsername(String username) {
+//        User user = userRepository.findByUsername(username);
+//        if (user == null) {
+//            throw new UsernameNotFoundException(username);
+//        }
+//        return new MyUserPrincipal(user);
+//    }
     public List<User> getAll() {
         return userRepository.findAll();
     }
+
 
     public Optional<User> getbyid(Long id) {
         return userRepository.findById(id);
