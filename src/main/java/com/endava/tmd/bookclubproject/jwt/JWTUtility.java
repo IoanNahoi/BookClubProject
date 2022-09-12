@@ -1,10 +1,10 @@
 package com.endava.tmd.bookclubproject.jwt;
 
 
+import com.endava.tmd.bookclubproject.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +20,14 @@ public class JWTUtility implements Serializable {
     private static final long serialVersionUID = 234234523523L;
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public final UserService userService;
 
 //    @Value("${jwt.secret}")
     private String secretKey="secret";
+
+    public JWTUtility(UserService userService) {
+        this.userService = userService;
+    }
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
@@ -57,6 +62,7 @@ public class JWTUtility implements Serializable {
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id",userService.getUserByUsername(userDetails.getUsername()).getId());
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

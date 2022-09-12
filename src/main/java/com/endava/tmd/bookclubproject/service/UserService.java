@@ -62,8 +62,9 @@ public class UserService implements UserDetailsService {
     public void addUser(User user) {
         if (userRepository.findByUsername(user.getUsername()) == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRole(roleRepository.findRoleByName("USER"));
             userRepository.save(user);
-            addRoleToUser(user.getUsername(),"USER");
+//            addRoleToUser(user.getUsername(),"USER");
 
         }
     }
@@ -84,6 +85,9 @@ public class UserService implements UserDetailsService {
 
     public Object login(String username, String password) {
         return userRepository.login(username, password).isPresent() ? (User) userRepository.login(username, password).get() : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    public User getUserByUsername(String username){
+        return userRepository.findByUsername(username);
     }
 
     public void saveRole(Role role) {

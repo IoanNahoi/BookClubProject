@@ -78,11 +78,11 @@ public class UserController {
     }
 
     @PostMapping(value = "register")
-    public ResponseEntity<User> addUser(@RequestBody final User user) {
-//        userService.addUser(user);
-        User user1 = userRepository.save(user);
-        URI userURI = URI.create("/register" + user1.getId());
-        return ResponseEntity.created(userURI).body(user1);
+    public void addUser(@RequestBody final User user) {
+        userService.addUser(user);
+//        User user1 = userRepository.save(user);
+//        URI userURI = URI.create("/register" + user1.getId());
+//        return ResponseEntity.created(userURI).body(user1);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
